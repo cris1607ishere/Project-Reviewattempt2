@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Planner</title>
+    <link rel="stylesheet" href="myownNotion.css">
+    <style>
+        #event-list {
+            margin-top: 20px;
+            padding: 10px;
+            border-top: 2px solid #ccc;
+        }
+        .event-item {
+            margin-bottom: 10px;
+        }
+        .event-date {
+            font-weight: bold;
+            color: #2e86de;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>🌟 Monthly Planner</h1>
+        <nav>
+            <ul>
+                <li><a href="project.html">Home</a></li>
+                <li><a href="myowndailynotion.html">Daily Planner</a></li>
+                <li><a href="myownweeklynotion.html">Weekly Planner</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Month Overview</h2>
+        <input type="date" id="event-date">
+        <input type="text" id="event-description" placeholder="Add event description">
+        <button id="add-event">Add Event</button>
+
+        <div id="event-list">
+            <h3>📅 Your Events</h3>
+            <ul id="events-container"></ul>
+        </div>
+    </main>
+
+    <footer>
+        <p>This is your month.</p>
+    </footer>
+
+    <script>
+        const dateInput = document.getElementById('event-date');
+        const descInput = document.getElementById('event-description');
+        const addBtn = document.getElementById('add-event');
+        const eventsContainer = document.getElementById('events-container');
+
+        let events = [];
+
+        addBtn.addEventListener('click', () => {
+            const date = dateInput.value;
+            const desc = descInput.value.trim();
+
+            if (!date || !desc) {
+                alert("Please enter both date and description!");
+                return;
+            }
+
+            const event = { date, desc };
+            events.push(event);
+            displayEvents();
+
+            // Clear inputs
+            dateInput.value = '';
+            descInput.value = '';
+        });
+
+        function displayEvents() {
+            eventsContainer.innerHTML = '';
+            events.forEach(e => {
+                const li = document.createElement('li');
+                li.classList.add('event-item');
+                li.innerHTML = `<span class="event-date">${e.date}</span>: ${e.desc}`;
+                eventsContainer.appendChild(li);
+            });
+        }
+    </script>
+</body>
+
+</html>

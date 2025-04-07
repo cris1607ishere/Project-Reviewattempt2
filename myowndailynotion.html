@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Planner</title>
+    <link rel="stylesheet" href="myownNotion.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>📝 Daily Planner</h1>
+        <nav>
+            <ul>
+                <li><a href="project.html">Home</a></li>
+                <li><a href="myownweeklynotion.html">Weekly Planner</a></li>
+                <li><a href="myownmonthlynotion.html">Monthly Planner</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Today's Tasks</h2>
+        <ul>
+            <li><input type="text" placeholder=" Task 1"><input type="checkbox" class="task-check"></li>
+            <li><input type="text" placeholder=" Task 2"><input type="checkbox" class="task-check"></li>
+            <li><input type="text" placeholder=" Task 3"><input type="checkbox" class="task-check"></li>
+        </ul>
+
+        <!-- Pie Chart -->
+        <canvas id="taskChart" width="300" height="300" style="margin: 30px auto; display: block;"></canvas>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 My Planner.</p>
+    </footer>
+
+    <!-- Chart Update Script -->
+    <script>
+        const checkboxes = document.querySelectorAll('.task-check');
+        const ctx = document.getElementById('taskChart').getContext('2d');
+
+        let chart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Completed', 'Remaining'],
+                datasets: [{
+                    data: [0, checkboxes.length],
+                    backgroundColor: ['#4CAF50', '#F44336']
+                }]
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Task Completion Status'
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        function updateChart() {
+            const completed = Array.from(checkboxes).filter(cb => cb.checked).length;
+            const remaining = checkboxes.length - completed;
+            chart.data.datasets[0].data = [completed, remaining];
+            chart.update();
+        }
+
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', updateChart);
+        });
+
+        // Initialize chart with current status
+        updateChart();
+    </script>
+</body>
+
+</html>
